@@ -1,11 +1,17 @@
 import { Layout, Input } from 'antd';
-
-import 'antd/dist/antd.css';
 import { useEffect, useState } from 'react';
-import './App.css';
 import NewsView from './NewsView';
 
+import 'antd/dist/antd.css';
+import './App.css';
+
 function App(props) {
+  const backendUrl = 'http://localhost:8000';
+
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedTerm, setSelectedTerm] = useState();
+  const [selectedTermArticles, setSelectedTermArticles] = useState();
+
   useEffect(() => {
     window.particlesJS('particles-js',
       {
@@ -135,16 +141,29 @@ function App(props) {
     document.getElementById('particles-js').addEventListener('click', () => onCanvasClick(window.pJSDom[0].pJS));
   }, []);
 
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedTerm, setSelectedTerm] = useState();
+  useEffect(() => {
+    if (!selectedTerm) return;
+
+    fetch(`${backendUrl}/search_filenames/${selectedTerm}&20`).then(async (res) => {
+      const result = await res.json();
+      const articles = [];
+      for (let filename of result.files) {
+        console.log(filename);
+        const article = await (await fetch(`${backendUrl}/article/${filename}`)).json();
+        articles.push(article);
+      }
+
+      setSelectedTermArticles(articles);
+    });
+  }, [selectedTerm]);
 
   const onSearch = async () => {
-    const searchRes = await (await fetch(`http://localhost:8000/search/${encodeURI(searchTerm)}`)).json();
+    const searchRes = await (await fetch(`${backendUrl}/${encodeURI(searchTerm)}`)).json();
     console.dir(searchRes);
   }
 
   const getTerms = async (particlejs) => {
-    const terms = await (await fetch('http://localhost:8000/terms/1000')).json();
+    const terms = await (await fetch(`${backendUrl}/terms/1000`)).json();
 
     for (let i = 0; i < 20; i++) {
       const element = terms[i];
@@ -194,7 +213,9 @@ function App(props) {
           </div>
         </Layout.Content>
         <Layout.Content id="articles">
-          {selectedTerm ? <NewsView selectedTerm={selectedTerm}/> : null }
+          {selectedTerm ? <NewsView 
+            selectedTerm={selectedTerm}
+            selectedTermArticles={selectedTermArticles}/> : null }
         </Layout.Content>
       </Layout>
     </div>
