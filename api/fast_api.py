@@ -26,18 +26,34 @@ doc_path = f"../../data_from_2020/*json"
 index = PageRank(doc_path)
 
 @app.get("/pairs")
-def read_pairs():
+def get_pairs():
     return {"Hello": "World"}
 
 @app.get("/terms/{n}")
-def read_terms(n: int):
+def get_terms(n: int):
     return index.get_terms(n)
 
+@app.get("/tfidf/{term}&{doc_id}")
+def get_tf_idf(term: str, doc_id: int):
+    return index.tf_idf(term, doc_id)
+
+@app.get("/rank/{n}")
+def get_top(n: int):
+    return index.rank(n)
+
 @app.get("/search/{query}")
-def read_search(query: str):
+def get_search(query: str):
     res = set(index.search(urllib.parse.unquote(query)))
 
     if len(res) > 0:
         return {"query": list(res)}
     else:
         return {}
+
+@app.get("/posting")
+def get_posting_list():
+    return index.posting_list
+
+@app.get("/posting_len")
+def get_posting_len():
+    return len(index.posting_list)
