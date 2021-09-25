@@ -8,7 +8,7 @@ function NewsView() {
         <div className="NewsView">
             <Layout>
                 <Layout.Header>
-                    <Typography.Title level={2} style={{color: '#ffffff'}}>Überschwemmung</Typography.Title>
+                    <Typography.Title level={2} >Überschwemmung</Typography.Title>
                 </Layout.Header>
                 <Layout>
                     <Layout.Sider>Sider</Layout.Sider>
