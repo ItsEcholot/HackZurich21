@@ -154,7 +154,7 @@ function App(props) {
         const newArticle = {
           title: (new Date(article.publishedDate*1000)).toLocaleDateString('de-CH'),
           cardTitle: article.headline,
-          cardSubtitle: (new Date(article.publishedDate*1000)).toLocaleDateString('de-CH'),
+          cardSubtitle: article.shortLead,
           cardDetailedText: article.paragraphs,
           media: {
             type: "IMAGE",
