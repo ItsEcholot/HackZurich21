@@ -21,16 +21,16 @@ function App() {
             "value": "#ffffff"
           },
           "shape": {
-            "type": "abstract-circle",
+            "type": "image",
             "stroke": {
               "width": 0,
-              "color": "#000000"
+              "color": "#ffffff"
             },
             "polygon": {
               "nb_sides": 8
             },
             "image": {
-              "src": "img/github.svg",
+              "src": "sphere.png",
               "width": 100,
               "height": 100
             }
@@ -46,7 +46,7 @@ function App() {
             }
           },
           "size": {
-            "value": 60,
+            "value": 50,
             "random": true,
             "anim": {
               "enable": true,
