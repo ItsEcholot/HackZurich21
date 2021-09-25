@@ -191,7 +191,7 @@ function App() {
           </div>
         </Layout.Content>
         <Layout.Content>
-          <NewsView selectedTerm={selectedTerm}/>
+          {selectedTerm ? <NewsView selectedTerm={selectedTerm}/> : null }
         </Layout.Content>
       </Layout>
     </div>
