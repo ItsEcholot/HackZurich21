@@ -148,7 +148,6 @@ function App(props) {
       const result = await res.json();
       const articles = [];
       for (let filename of result.files) {
-        console.log(filename);
         const article = await (await fetch(`${backendUrl}/article/${filename}.json`)).json();
 
         const newArticle = {
@@ -179,7 +178,7 @@ function App(props) {
 
   const onSearch = async () => {
     const searchRes = await (await fetch(`${backendUrl}/${encodeURI(searchTerm)}`)).json();
-    console.dir(searchRes);
+    console.dir(searchTerm);
   }
 
   const getTerms = async (particlejs) => {
