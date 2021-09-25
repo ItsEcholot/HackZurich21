@@ -3,11 +3,14 @@ from page_rank import PageRank
 
 import urllib.parse
 import json
+import spacy
 
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI
 
 app = FastAPI()
+spacy.prefer_gpu()
+nlp = spacy.load('de_core_news_sm')
 
 origins = [
     "*",
@@ -39,6 +42,35 @@ def get_tf_idf(term: str, doc_id: int):
 @app.get("/rank/{n}")
 def get_top(n: int):
     return index.rank(n)
+
+@app.get("/similarity/{token1}/{token2}")
+def get_similarity(token1: str, token2: str):
+    l1 = index.posting_list[token1]
+    l2 = index.posting_list[token2]
+
+    l3 = l1.intersection(l2)
+    print(l3)
+    if len(l3) > 0:
+        doc_id = l3.pop()
+        doc_id, text = index.docs[doc_id]
+        print(doc_id)
+        print(text)
+        tokens = nlp(text)
+
+        for token in tokens:
+            print(token.text, token.has_vector, token.vector_norm, token.is_oov)
+
+
+    else :
+        return 0
+
+    return 
+
+
+@app.get("/max_tf_idfs")
+def get_max_tf_idf_term():
+    with open("tf_idf.json") as f:
+        return json.load(f)
 
 @app.get("/get_max_tf_idf_terms/{n}/{k}")
 def get_max_tf_idf_term(n: int, k: int):
