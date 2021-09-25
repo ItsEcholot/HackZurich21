@@ -16,6 +16,7 @@ class PageRank:
     self.docs=[]
     self.posting_list = {}
     self.tf = {}
+    self.doc_paths = []
 
     self.read_docs()
     self.create_index()
@@ -24,6 +25,7 @@ class PageRank:
 
   def read_docs(self):
     for doc_id, doc in enumerate(sorted(glob2.glob(self.doc_path))):
+      self.doc_paths.append(doc)
       with open(doc) as f:
         json_doc = json.load(f)
         if len(json_doc["paragraphs"]) > 0:
@@ -31,6 +33,33 @@ class PageRank:
           text = functools.reduce((lambda x, y : x + " " + y), json_doc["paragraphs"])
           self.docs.append((doc_id,text))
           for term in (re.sub('[^A-Za-z ]+', '', text)).lower().split():
+            
+            # index creation
+            term = self.normalize_term(term)
+            if term not in self.posting_list:
+              self.posting_list[term] = set([doc_id])
+            else:
+              self.posting_list[term].add(doc_id)
+            
+            if (term, doc_id) in self.tf:
+              self.tf[(term, doc_id)] += 1
+            else:
+              self.tf[(term, doc_id)] = 1
+
+        else:
+          # paragraphs empty
+          self.docs_json.append(json_doc)
+          text = functools.reduce((lambda x, y : x + " " + y), json_doc["headline"])
+          self.docs.append((doc_id,text))
+          for term in (re.sub('[^A-Za-z ]+', '', text)).lower().split():
+            
+            # index creation
+            term = self.normalize_term(term)
+            if term not in self.posting_list:
+              self.posting_list[term] = set([doc_id])
+            else:
+              self.posting_list[term].add(doc_id)
+            
             if (term, doc_id) in self.tf:
               self.tf[(term, doc_id)] += 1
             else:
@@ -41,14 +70,10 @@ class PageRank:
   def create_index(self):
     # self.ii = InvertedIndex()
     # self.ii.index(map(lambda x : x[1],self.docs))
-    for doc_id, text in self.docs:
-      for term in text.split(" "):
-        term = self.normalize_term(term)
-
-        if term not in self.posting_list:
-          self.posting_list[term] = set([doc_id])
-        else:
-          self.posting_list[term].add(doc_id)
+    # for doc_id, text in self.docs:
+    #   for term in text.split(" "):
+    pass
+        
 
   def df(self, term):
     if term in self.posting_list:
@@ -75,17 +100,28 @@ class PageRank:
 
     query_vector = np.zeros(len(query))
     doc_vectors = np.zeros((self.n_docs, len(query)))
-
+    max_tfidf = 0
+    doc_ = 0
     for term_i, term in enumerate(query):
       if term in self.posting_list:
         for doc_id in self.posting_list[term]:
+          
+          if max_tfidf < self.tf_idf(term, doc_id):
+            max_tfidf = self.tf_idf(term, doc_id)
+            doc_ = doc_id
+
           doc_vectors[doc_id, term_i] = self.tf_idf(term, doc_id)
           query_vector[term_i] = 1
 
+    print(f"tf-idf: {max_tfidf} | doc_id {self.doc_paths[doc_]} | {doc_}")
     res = []
 
     for i in range(self.n_docs):
-      res.append(np.dot(doc_vectors[i],query_vector))
+      score = np.dot(doc_vectors[i],query_vector)
+      # print(score)
+      res.append(score)
+    
+    print(np.argmax(res))
 
     return self.docs[np.argmax(res)]
 
