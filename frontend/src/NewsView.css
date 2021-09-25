@@ -36,3 +36,16 @@ h2::before{
 .timeline-vertical-circle > .active{
     color:white;
 }
+
+.timeline-card-content {
+    padding: 10px 10px 0 10px;
+}
+
+.css-d0st9p-CardImage {
+    width: 100%;
+    overflow: hidden;
+    height: 200px;
+    object-fit: cover !important;
+    border-radius: 2px;
+    margin-bottom: 10px;
+}
