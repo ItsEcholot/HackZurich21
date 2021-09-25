@@ -512,6 +512,10 @@ var pJS = function(tag_id, params){
     }
   };
 
+  pJS.fn.outOfBounds = (p) => {
+    console.log(`out of bounds ${p}`);
+  };
+
   pJS.fn.particlesUpdate = function(){
 
     for(var i = 0; i < pJS.particles.array.length; i++){
@@ -579,18 +583,22 @@ var pJS = function(tag_id, params){
       if(p.x - p.radius > pJS.canvas.w){
         p.x = new_pos.x_left;
         p.y = Math.random() * pJS.canvas.h;
+        pJS.fn.outOfBounds(p);
       }
       else if(p.x + p.radius < 0){
         p.x = new_pos.x_right;
         p.y = Math.random() * pJS.canvas.h;
+        pJS.fn.outOfBounds(p);
       }
       if(p.y - p.radius > pJS.canvas.h){
         p.y = new_pos.y_top;
         p.x = Math.random() * pJS.canvas.w;
+        pJS.fn.outOfBounds(p);
       }
       else if(p.y + p.radius < 0){
         p.y = new_pos.y_bottom;
         p.x = Math.random() * pJS.canvas.w;
+        pJS.fn.outOfBounds(p);
       }
 
       /* out of canvas modes */
@@ -643,6 +651,12 @@ var pJS = function(tag_id, params){
       // Custom link logic
       pJS.fn.interact.linkParticles(pJS.particles.array[0], pJS.particles.array[1]);
       pJS.fn.interact.attractParticles(pJS.particles.array[0], pJS.particles.array[1]);
+
+      pJS.fn.interact.linkParticles(pJS.particles.array[0], pJS.particles.array[2]);
+      pJS.fn.interact.attractParticles(pJS.particles.array[0], pJS.particles.array[2]);
+
+      pJS.fn.interact.linkParticles(pJS.particles.array[1], pJS.particles.array[2]);
+      pJS.fn.interact.attractParticles(pJS.particles.array[1], pJS.particles.array[2]);
     }
 
   };
@@ -1072,8 +1086,6 @@ var pJS = function(tag_id, params){
         dist_mouse <= pJS.interactivity.modes.grab.distance_stop && 
         (pJS.interactivity.last_grabbed !== p && dist_mouse < pJS.interactivity.last_grabbed_dist)
       ) {
-        console.log(dist_mouse <= pJS.interactivity.modes.grab.distance_stop && 
-          (pJS.interactivity.last_grabbed !== p && dist_mouse < pJS.interactivity.last_grabbed_dist));
         pJS.interactivity.last_grabbed = p;
         pJS.interactivity.last_grabbed_dist = dist_mouse;
       } else if (
