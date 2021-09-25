@@ -89,7 +89,7 @@ function App() {
               "enable": false,
               "mode": "bubble"
             },
-            "resize": false
+            "resize": true
           },
           "modes": {
             "grab": {

@@ -192,7 +192,7 @@ var pJS = function(tag_id, params){
 
     pJS.canvas.el.width = pJS.canvas.w;
     pJS.canvas.el.height = pJS.canvas.h;
-
+    
     if(pJS && pJS.interactivity.events.resize){
 
       window.addEventListener('resize', function(){
@@ -1550,8 +1550,8 @@ window.particlesJS = function(tag_id, params){
   canvas_el.className = pJS_canvas_class;
 
   /* set size canvas */
-  //canvas_el.style.width = "100%";
-  //canvas_el.style.height = "100%";
+  canvas_el.style.width = "100%";
+  canvas_el.style.height = "100%";
 
   /* append canvas */
   var canvas = document.getElementById(tag_id).appendChild(canvas_el);
