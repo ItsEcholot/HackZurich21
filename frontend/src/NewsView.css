@@ -5,3 +5,8 @@
 .ant-layout-sider{
     background-color: rgb(240, 242, 245);
 }
+.chrono-wrap{
+    width: 100%;
+    max-width: 80rem;
+    height: 50vw;
+}
