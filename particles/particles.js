@@ -429,7 +429,6 @@ var pJS = function(tag_id, params){
 
       case 'circle':
         pJS.canvas.ctx.arc(p.x, p.y, radius, 0, Math.PI * 2, false);
-        pJS.canvas.ctx.fillText('Test', p.x, p.y);
       break;
 
       case 'edge':
@@ -486,7 +485,13 @@ var pJS = function(tag_id, params){
 
       break;
 
+      case 'abstract-circle':
+
+      break;
     }
+
+    // Custom draw text
+    pJS.canvas.ctx.fillText('Test', p.x, p.y);
 
     pJS.canvas.ctx.closePath();
 
@@ -523,8 +528,9 @@ var pJS = function(tag_id, params){
       // }
 
       /* move the particle */
-      if(pJS.particles.move.enable){
-        var ms = pJS.particles.move.speed/2;
+      if(pJS.particles.move.enable && pJS.interactivity.last_grabbed !== p){
+        var ms = pJS.particles.move.speed/2;   
+
         p.x += p.vx * ms;
         p.y += p.vy * ms;
       }
@@ -637,8 +643,6 @@ var pJS = function(tag_id, params){
       // Custom link logic
       pJS.fn.interact.linkParticles(pJS.particles.array[0], pJS.particles.array[1]);
       pJS.fn.interact.attractParticles(pJS.particles.array[0], pJS.particles.array[1]);
-
-
     }
 
   };
@@ -722,17 +726,21 @@ var pJS = function(tag_id, params){
         dy = p1.y - p2.y,
         dist = Math.sqrt(dx*dx + dy*dy);
 
-    if(dist <= pJS.particles.line_linked.distance){
+    //if(dist <= pJS.particles.line_linked.distance){
+    if (dist >= pJS.particles.move.attract.minDistance) {
 
       var ax = dx/(pJS.particles.move.attract.rotateX*1000),
           ay = dy/(pJS.particles.move.attract.rotateY*1000);
 
       p1.vx -= ax;
       p1.vy -= ay;
-
       p2.vx += ax;
       p2.vy += ay;
 
+      p1.vx = Math.min(Math.max(p1.vx, -pJS.particles.move.speed*0.5), pJS.particles.move.speed*0.5);
+      p1.vy = Math.min(Math.max(p1.vy, -pJS.particles.move.speed*0.5), pJS.particles.move.speed*0.5);
+      p2.vx = Math.min(Math.max(p2.vx, -pJS.particles.move.speed*0.5), pJS.particles.move.speed*0.5);
+      p2.vy = Math.min(Math.max(p1.vx, -pJS.particles.move.speed*0.5), pJS.particles.move.speed*0.5);
     }
     
 
@@ -1060,6 +1068,21 @@ var pJS = function(tag_id, params){
 
       }
 
+      if (
+        dist_mouse <= pJS.interactivity.modes.grab.distance_stop && 
+        (pJS.interactivity.last_grabbed !== p && dist_mouse < pJS.interactivity.last_grabbed_dist)
+      ) {
+        console.log(dist_mouse <= pJS.interactivity.modes.grab.distance_stop && 
+          (pJS.interactivity.last_grabbed !== p && dist_mouse < pJS.interactivity.last_grabbed_dist));
+        pJS.interactivity.last_grabbed = p;
+        pJS.interactivity.last_grabbed_dist = dist_mouse;
+      } else if (
+        dist_mouse > pJS.interactivity.modes.grab.distance_stop && 
+        pJS.interactivity.last_grabbed === p
+      ) {
+        pJS.interactivity.last_grabbed = undefined;
+        pJS.interactivity.last_grabbed_dist = Infinity;
+      }
     }
 
   };

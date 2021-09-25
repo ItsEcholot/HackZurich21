@@ -16,9 +16,9 @@ particlesJS('particles-js',
   {
     "particles": {
       "number": {
-        "value": 1,
+        "value": 2,
         "density": {
-          "enable": true,
+          "enable": false,
           "value_area": 800
         }
       },
@@ -26,13 +26,13 @@ particlesJS('particles-js',
         "value": "#ffffff"
       },
       "shape": {
-        "type": "circle",
+        "type": "abstract-circle",
         "stroke": {
           "width": 0,
           "color": "#000000"
         },
         "polygon": {
-          "nb_sides": 5
+          "nb_sides": 8
         },
         "image": {
           "src": "img/github.svg",
@@ -41,22 +41,22 @@ particlesJS('particles-js',
         }
       },
       "opacity": {
-        "value": 0.5,
+        "value": 1,
         "random": false,
         "anim": {
-          "enable": false,
-          "speed": 1,
-          "opacity_min": 0.1,
+          "enable": true,
+          "speed": 0.1,
+          "opacity_min": 0.5,
           "sync": false
         }
       },
       "size": {
-        "value": 20,
+        "value": 60,
         "random": true,
         "anim": {
-          "enable": false,
-          "speed": 40,
-          "size_min": 0.1,
+          "enable": true,
+          "speed": 1,
+          "size_min": 20,
           "sync": false
         }
       },
@@ -69,34 +69,37 @@ particlesJS('particles-js',
       },
       "move": {
         "enable": true,
-        "speed": 6,
+        "speed": 1,
         "direction": "none",
         "random": false,
         "straight": false,
         "out_mode": "out",
         "attract": {
-          "enable": true,
-          "rotateX": 600,
-          "rotateY": 1200
+          "enable": false,
+          "minDistance": 300,
+          "rotateX": 300,
+          "rotateY": 600
         }
       }
     },
     "interactivity": {
       "detect_on": "canvas",
+      "last_grabbed_dist": Infinity,
       "events": {
         "onhover": {
-          "enable": false,
-          "mode": "repulse"
+          "enable": true,
+          "mode": "grab"
         },
         "onclick": {
           "enable": false,
-          "mode": "push"
+          "mode": "bubble"
         },
         "resize": false
       },
       "modes": {
         "grab": {
           "distance": 400,
+          "distance_stop": 100,
           "line_linked": {
             "opacity": 1
           }
