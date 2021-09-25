@@ -125,6 +125,12 @@ class PageRank:
       res.append(score)
   
     # print(np.argmax(res))
+    # if score of docs are too low (e.g. query is unrelated to documents)
+    if (res[k] < 0.05):
+      while res[k] < 0.05 and k >= 0:
+        if k == 0:
+          return []
+        k -= 1
 
     top_k_retrieval = np.argsort(res)[-k:]
     print(top_k_retrieval)
