@@ -3,7 +3,7 @@ from page_rank import PageRank
 
 from fastapi import FastAPI
 
-doc_path = f"../data/data_from_2020/*json"
+doc_path = f"../../data/data_from_2020/*json"
 
 app = FastAPI()
 

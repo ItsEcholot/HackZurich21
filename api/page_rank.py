@@ -1,4 +1,3 @@
-import sklearn
 import os
 import glob2
 import pandas as pd

@@ -1,0 +1,5 @@
+numpy==1.21.0
+uvicorn==0.14.0
+uvloop==0.15.3
+fastapi==0.68.1
+inverted_index==0.1.1
