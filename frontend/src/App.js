@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import './App.css';
 import NewsView from './NewsView';
 
-function App() {
+function App(props) {
   useEffect(() => {
     window.particlesJS('particles-js',
       {
@@ -169,6 +169,9 @@ function App() {
   const onCanvasClick = async (particlejs) => {
     if (particlejs.interactivity.last_grabbed_dist < particlejs.interactivity.modes.grab.distance_click) {
       setSelectedTerm(particlejs.interactivity.last_grabbed.data);
+
+      window.location.href = '#';
+      window.location.href = '#articles';
     }
   }
 
@@ -190,7 +193,7 @@ function App() {
             <div id="particles-js"></div>
           </div>
         </Layout.Content>
-        <Layout.Content>
+        <Layout.Content id="articles">
           {selectedTerm ? <NewsView selectedTerm={selectedTerm}/> : null }
         </Layout.Content>
       </Layout>
