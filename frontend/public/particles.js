@@ -486,8 +486,17 @@ var pJS = function(tag_id, params){
       break;
 
       case 'abstract-circle':
-
+        pJS.fn.vendors.drawShape(
+          pJS.canvas.ctx,
+          p.x - radius / (10/3.5), // startX
+          p.y - radius / (2.66/3.5), // startY
+          radius*2.66 / (10/3), // sideLength
+          10, // sideCountNumerator
+          1 // sideCountDenominator
+        );
       break;
+
+      default:
     }
 
     // Custom draw text
@@ -501,7 +510,7 @@ var pJS = function(tag_id, params){
       pJS.canvas.ctx.stroke();
     }
     
-    pJS.canvas.ctx.fill();
+    // pJS.canvas.ctx.fill();
     
   };
 
@@ -1295,15 +1304,23 @@ var pJS = function(tag_id, params){
     c.beginPath();
     c.translate(startX, startY);
     c.moveTo(0,0);
+    c.arc(0,0,sideLength/20,0,2*Math.PI);
+    c.fill();
     for (var i = 0; i < sideCount; i++) {
+      c.beginPath();
+      c.arc(sideLength,0,sideLength/20,0,2*Math.PI);
+      c.fill();
+      c.beginPath();
+      c.moveTo(0,0);
       c.lineTo(sideLength,0);
+      c.stroke();
+      
       c.translate(sideLength,0);
       c.rotate(interiorAngle);
     }
     //c.stroke();
-    c.fill();
+    //c.fill();
     c.restore();
-
   };
 
   pJS.fn.vendors.exportImg = function(){
