@@ -30,3 +30,9 @@ h2::before{
     margin-left: auto!important;
     margin-right: auto!important;
 }
+.timeline-item-title.active{
+    background-color: unset!important;
+}
+.timeline-vertical-circle > .active{
+    color:white;
+}

@@ -3,7 +3,9 @@ import { Chrono } from "react-chrono";
 
 import './NewsView.css';
 
-function NewsView() {
+function NewsView(props) {
+    // props.selectedterms
+    // props.selectedterms.term -> string
     const items = [{
         title: "14. Juli 2021, 14:55 Uhr",
         cardTitle: "Allianz-Versicherung rechnet mit Rekordjahr",
@@ -46,7 +48,7 @@ function NewsView() {
         <div className="NewsView">
             <Layout>
                 <Layout.Header>
-                    <Typography.Title level={2} >Überschwemmung</Typography.Title>
+                    <Typography.Title level={2} >{props.selectedTerm.term}</Typography.Title>
                 </Layout.Header>
                 <div className="chrono-wrap">
                     <Chrono  
