@@ -242,6 +242,7 @@ var pJS = function (tag_id, params) {
 
     /* size */
     this.radius = (pJS.particles.size.random ? Math.random() : 1) * pJS.particles.size.value;
+    this.radius = Math.max(this.radius, 50);
     if (pJS.particles.size.anim.enable) {
       this.size_status = false;
       this.vs = pJS.particles.size.anim.speed / 100;
@@ -533,7 +534,7 @@ var pJS = function (tag_id, params) {
     for (let i = 0; i < pJS.particles.array.length; i++) {
       for (let j = 0; j < pJS.particles.array.length; j++) {
         if (Math.random() > 0.98) {
-          pJS.linkPartners.push([pJS.particles.array[i], pJS.particles.array[j]]);
+          //pJS.linkPartners.push([pJS.particles.array[i], pJS.particles.array[j]]);
         }
       }
     }

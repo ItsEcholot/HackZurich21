@@ -55,9 +55,9 @@ function App(props) {
             "value": 50,
             "random": true,
             "anim": {
-              "enable": true,
+              "enable": false,
               "speed": 1,
-              "size_min": 20,
+              "size_min": 50,
               "sync": false
             }
           },
