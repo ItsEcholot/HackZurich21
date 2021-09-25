@@ -149,11 +149,29 @@ function App(props) {
       const articles = [];
       for (let filename of result.files) {
         console.log(filename);
-        const article = await (await fetch(`${backendUrl}/article/${filename}`)).json();
-        articles.push(article);
+        const article = await (await fetch(`${backendUrl}/article/${filename}.json`)).json();
+
+        const newArticle = {
+          title: (new Date(article.publishedDate*1000)).toLocaleDateString('de-CH'),
+          cardTitle: article.headline,
+          cardSubtitle: (new Date(article.publishedDate*1000)).toLocaleDateString('de-CH'),
+          cardDetailedText: article.paragraphs,
+          media: {
+            type: "IMAGE",
+            source: {
+              url: article.teaserImage
+            }
+          }
+        };
+
+        articles.push(newArticle);
       }
 
       setSelectedTermArticles(articles);
+
+      let element = document.getElementById("articles");
+      element.scrollIntoView();
+      // window.location.href = '#articles';
     });
   }, [selectedTerm]);
 
@@ -188,10 +206,6 @@ function App(props) {
   const onCanvasClick = async (particlejs) => {
     if (particlejs.interactivity.last_grabbed_dist < particlejs.interactivity.modes.grab.distance_click) {
       setSelectedTerm(particlejs.interactivity.last_grabbed.data);
-
-      let element = document.getElementById("articles");
-      element.scrollIntoView();
-      // window.location.href = '#articles';
     }
   }
 
