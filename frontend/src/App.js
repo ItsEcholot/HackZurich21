@@ -218,7 +218,7 @@ function App(props) {
       <Layout>
 
           <Input.Search
-            placeholder="Überschwemmung"
+            placeholder="SVP vs Berset..."
             allowClear onSearch={onSearch}
             style={{ marginTop: 15 }}
             enterButton
