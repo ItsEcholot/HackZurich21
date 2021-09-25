@@ -1,23 +1,26 @@
-import logo from './logo.svg';
+import {Layout, Input} from 'antd';
+
+import 'antd/dist/antd.css';
 import './App.css';
 
 function App() {
+  const onSearch = () => {
+
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Layout>
+        <Layout.Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
+          <Input.Search 
+            placeholder="input search text" 
+            allowClear onSearch={onSearch} 
+            style={{ marginTop: 15 }}
+            enterButton
+            size="large"
+          />
+        </Layout.Header>
+      </Layout>
     </div>
   );
 }
