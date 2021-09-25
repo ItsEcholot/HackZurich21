@@ -147,6 +147,8 @@ function App(props) {
     fetch(`${backendUrl}/search_filenames/${selectedTerm.term}/20`).then(async (res) => {
       const result = await res.json();
       const articles = [];
+      if (!result.files) return;
+
       for (let filename of result.files) {
         const article = await (await fetch(`${backendUrl}/article/${filename}.json`)).json();
 
