@@ -1,3 +1,4 @@
+import { Layout, Typography } from 'antd';
 
 import './NewsView.css';
 
@@ -6,12 +7,14 @@ function NewsView() {
     return (
         <div className="NewsView">
             <Layout>
-                <Header><Title level={2}>Überschwemmung</Title></Header>
+                <Layout.Header>
+                    <Typography.Title level={2} style={{color: '#ffffff'}}>Überschwemmung</Typography.Title>
+                </Layout.Header>
                 <Layout>
-                    <Sider>Sider</Sider>
-                    <Content>Content</Content>
+                    <Layout.Sider>Sider</Layout.Sider>
+                    <Layout.Content>Content</Layout.Content>
                 </Layout>
-                <Footer>Footer</Footer>
+                <Layout.Footer>Footer</Layout.Footer>
             </Layout>
         </div>
     );
