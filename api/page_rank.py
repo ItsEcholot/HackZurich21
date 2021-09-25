@@ -123,7 +123,7 @@ class PageRank:
       score = np.dot(doc_vectors[i],query_vector)
       # print(score)
       res.append(score)
-    
+  
     # print(np.argmax(res))
 
     top_k_retrieval = np.argsort(res)[-k:]
@@ -133,6 +133,17 @@ class PageRank:
       retrieved_docs.append(self.docs[i])
 
     return retrieved_docs
+  
+  def search_k_article_name(self, query, k):
+    retrieved_docs = self.search_k(query, k)
+
+    filenames = []
+
+    for (i, text) in list(retrieved_docs):
+      filenames.append(self.doc_paths[i])
+
+    return filenames
+
 
   def search(self, query):
     query = re.sub('[^A-Za-z ]+', '', query.lower()).split(" ")

@@ -2,6 +2,7 @@ from typing import Optional
 from page_rank import PageRank
 
 import urllib.parse
+import json
 
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI
@@ -46,7 +47,7 @@ def get_search(query: str):
     res = set(index.search(urllib.parse.unquote(query)))
 
     if len(res) > 0:
-        return {"query": list(res)}
+        return {"best_result": list(res)}
     else:
         return {}
 
@@ -55,7 +56,16 @@ def get_search_top_k(query: str, k: int):
     res = index.search_k(urllib.parse.unquote(query), k)
 
     if len(res) > 0:
-        return {"query": list(res)}
+        return {"top_k_retrival": list(res)}
+    else:
+        return {}
+
+@app.get("/search_filenames/{query}&{k}")
+def get_search_top_k_article_names(query: str, k: int):
+    res = index.search_k_article_name(urllib.parse.unquote(query), k)
+
+    if len(res) > 0:
+        return {"files": list(res)}
     else:
         return {}
 
@@ -66,3 +76,9 @@ def get_posting_list():
 @app.get("/posting_len")
 def get_posting_len():
     return len(index.posting_list)
+
+@app.get("/article/{file_name}")
+def get_article():
+    path = f"../../data_from_2020/{file_name}"
+    with open(path) as f:
+        return json.load(f)
