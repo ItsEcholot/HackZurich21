@@ -40,30 +40,14 @@ class PageRank:
     else:
       return 0
 
-  # def tf(self, term, docid):
-
-
+  def tf(self, term, docid):
+    pass
 
   def search(self, query):
     return self.ii.search(query)
 
   def get_terms(self, n):
-
     return 0
-
-
-def main():
-  doc_path = f"../data/data_from_2020/*json"
-  query = "Zürich"
-  pr = PageRank(doc_path)
-
-  for r in pr.ii.search(query):
-    print(r[:9])
-
-
-
-  # for i in range(5):
-  #   print(pr.docs[i]["paragraphs"])
 
 
 if __name__ == "__main__":
