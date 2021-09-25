@@ -31,15 +31,13 @@ def read_pairs():
 
 @app.get("/terms/{n}")
 def read_terms(n: int):
-    term_list = index.get_terms(n)
-
-    return {}
+    return index.get_terms(n)
 
 @app.get("/search/{query}")
 def read_search(query: str):
-    res = index.search(urllib.parse.unquote(query))
+    res = set(index.search(urllib.parse.unquote(query)))
 
     if len(res) > 0:
-        return {"query": res[0]}
+        return {"query": list(res)}
     else:
         return {}
