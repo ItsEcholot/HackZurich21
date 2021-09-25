@@ -161,12 +161,14 @@ function App(props) {
             source: {
               url: article.teaserImage
             }
-          }
+          },
+          rawDate: article.publishedDate
         };
 
         articles.push(newArticle);
       }
 
+      articles.sort((a, b) => b.rawDate - a.rawDate);
       setSelectedTermArticles(articles);
 
       let element = document.getElementById("articles");
