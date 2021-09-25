@@ -3,18 +3,11 @@
   min-height: calc(100vh - 64px);
 }
 
-.cloud-layout::before {
-  content: "";
+.cloud-layout-img {
   background-image: url("bg_test.png");
   background-size: 130%;
-  position: absolute;
   background-position: 50% 50%;
-  top: 0px;
-  right: 0px;
-  bottom: 0px;
-  left: 0px;
   opacity: 0.17;
-  /* overflow: hidden; */
 }
 
 .particles-js-canvas-el {

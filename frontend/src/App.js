@@ -177,7 +177,9 @@ function App() {
           />
         </Layout.Header>
         <Layout.Content className="cloud-layout">
-          <div id="particles-js"></div>
+          <div class="cloud-layout-img">
+            <div id="particles-js"></div>
+          </div>
         </Layout.Content>
         <Layout.Content>
           <NewsView />
