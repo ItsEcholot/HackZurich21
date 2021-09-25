@@ -2,7 +2,6 @@ import os
 import glob2
 import pandas as pd
 import numpy as np
-import nltk
 import json
 import functools
 from prompt_toolkit import prompt
