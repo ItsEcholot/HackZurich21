@@ -175,7 +175,7 @@ function App() {
   return (
     <div className="App">
       <Layout>
-        <Layout.Header style={{ width: '100%' }}>
+
           <Input.Search
             placeholder="Überschwemmung"
             allowClear onSearch={onSearch}
@@ -184,7 +184,7 @@ function App() {
             size="large"
             onChange={e => setSearchTerm(e.target.value)}
           />
-        </Layout.Header>
+
         <Layout.Content className="cloud-layout">
           <div className="cloud-layout-img">
             <div id="particles-js"></div>
