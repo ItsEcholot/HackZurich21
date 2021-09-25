@@ -44,8 +44,6 @@ class PageRank:
     for doc_id, text in self.docs:
       for term in text.split(" "):
         term = self.normalize_term(term)
-        if term == "":
-          continue
 
         if term not in self.posting_list:
           self.posting_list[term] = set([doc_id])
@@ -81,7 +79,7 @@ class PageRank:
     for term_i, term in enumerate(query):
       if term in self.posting_list:
         for doc_id in self.posting_list[term]:
-          doc_vectors[doc_id, term_i] = self.tf[term, doc_id] * self.tf_idf(term, doc_id)
+          doc_vectors[doc_id, term_i] = self.tf_idf(term, doc_id)
           query_vector[term_i] = 1
 
     res = []
