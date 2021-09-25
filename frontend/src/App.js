@@ -144,7 +144,7 @@ function App(props) {
   useEffect(() => {
     if (!selectedTerm) return;
 
-    fetch(`${backendUrl}/search_filenames/${selectedTerm}&20`).then(async (res) => {
+    fetch(`${backendUrl}/search_filenames/${selectedTerm.term}/20`).then(async (res) => {
       const result = await res.json();
       const articles = [];
       for (let filename of result.files) {
