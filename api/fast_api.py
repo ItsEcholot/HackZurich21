@@ -41,9 +41,18 @@ def get_tf_idf(term: str, doc_id: int):
 def get_top(n: int):
     return index.rank(n)
 
-@app.get("/search/{query}")
+@app.get("/search_best/{query}")
 def get_search(query: str):
     res = set(index.search(urllib.parse.unquote(query)))
+
+    if len(res) > 0:
+        return {"query": list(res)}
+    else:
+        return {}
+
+@app.get("/search/{query}&{k}")
+def get_search_top_k(query: str, k: int):
+    res = index.search_k(urllib.parse.unquote(query), k)
 
     if len(res) > 0:
         return {"query": list(res)}

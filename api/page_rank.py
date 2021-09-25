@@ -95,6 +95,45 @@ class PageRank:
     else:
       return 0
 
+  def search_k(self, query, k):
+    if k > self.n_docs:
+      k = self.n_docs
+    
+    query = re.sub('[^A-Za-z ]+', '', query.lower()).split(" ")
+
+    query_vector = np.zeros(len(query))
+    doc_vectors = np.zeros((self.n_docs, len(query)))
+    max_tfidf = 0
+    doc_ = 0
+    for term_i, term in enumerate(query):
+      if term in self.posting_list:
+        for doc_id in self.posting_list[term]:
+          
+          if max_tfidf < self.tf_idf(term, doc_id):
+            max_tfidf = self.tf_idf(term, doc_id)
+            doc_ = doc_id
+
+          doc_vectors[doc_id, term_i] = self.tf_idf(term, doc_id)
+          query_vector[term_i] = 1
+
+    # print(f"tf-idf: {max_tfidf} | doc_id {self.doc_paths[doc_]} | {doc_}")
+    res = []
+
+    for i in range(self.n_docs):
+      score = np.dot(doc_vectors[i],query_vector)
+      # print(score)
+      res.append(score)
+    
+    # print(np.argmax(res))
+
+    top_k_retrieval = np.argsort(res)[-k:]
+    print(top_k_retrieval)
+    retrieved_docs = []
+    for i in np.flip(top_k_retrieval):
+      retrieved_docs.append(self.docs[i])
+
+    return retrieved_docs
+
   def search(self, query):
     query = re.sub('[^A-Za-z ]+', '', query.lower()).split(" ")
 
@@ -113,7 +152,7 @@ class PageRank:
           doc_vectors[doc_id, term_i] = self.tf_idf(term, doc_id)
           query_vector[term_i] = 1
 
-    print(f"tf-idf: {max_tfidf} | doc_id {self.doc_paths[doc_]} | {doc_}")
+    # print(f"tf-idf: {max_tfidf} | doc_id {self.doc_paths[doc_]} | {doc_}")
     res = []
 
     for i in range(self.n_docs):
@@ -121,7 +160,7 @@ class PageRank:
       # print(score)
       res.append(score)
     
-    print(np.argmax(res))
+    # print(np.argmax(res))
 
     return self.docs[np.argmax(res)]
 
