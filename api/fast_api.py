@@ -3,14 +3,14 @@ from page_rank import PageRank
 
 import urllib.parse
 import json
-import spacy
+#import spacy
 
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI
 
 app = FastAPI()
-spacy.prefer_gpu()
-nlp = spacy.load('de_core_news_sm')
+#spacy.prefer_gpu()
+#nlp = spacy.load('de_core_news_sm')
 
 origins = [
     "*",
@@ -55,10 +55,10 @@ def get_similarity(token1: str, token2: str):
         doc_id, text = index.docs[doc_id]
         print(doc_id)
         print(text)
-        tokens = nlp(text)
+        """ tokens = nlp(text)
 
         for token in tokens:
-            print(token.text, token.has_vector, token.vector_norm, token.is_oov)
+            print(token.text, token.has_vector, token.vector_norm, token.is_oov) """
 
 
     else :

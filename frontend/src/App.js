@@ -182,7 +182,8 @@ function App(props) {
   }
 
   const getTerms = async (particlejs) => {
-    const terms = await (await fetch(`${backendUrl}/terms/1000`)).json();
+    //const terms = await (await fetch(`${backendUrl}/terms/1000`)).json();
+    const terms = (await (await fetch(`${backendUrl}/max_tf_idfs`)).json()).tf_idf;
 
     for (let i = 0; i < 20; i++) {
       const element = terms[i];
@@ -195,8 +196,7 @@ function App(props) {
         }
       );
       particle.data = {
-        term: element[0],
-        documentCount: element[1],
+        term: element,
       };
       particlejs.particles.array.push(particle);
     }
