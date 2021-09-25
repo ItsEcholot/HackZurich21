@@ -74,7 +74,30 @@ class PageRank:
     # for doc_id, text in self.docs:
     #   for term in text.split(" "):
     pass
-        
+
+  def get_high_tf_idf_terms(self, k, n_docs):
+    if k > self.n_docs:
+      k = self.n_docs
+    
+    terms = []
+    tf_idfs = []
+
+    for term in self.posting_list:
+      for doc_id in range(n_docs):
+        tf_idfs.append(self.tf_idf(term, doc_id))
+        terms.append(term)
+    
+    sort_tf_idfs = np.argsort(tf_idfs)
+
+    k_sort_tf_idfs = sort_tf_idfs[-k:]
+
+    res = []
+
+    for i in np.flip(k_sort_tf_idfs):
+      res.append(terms[i])
+
+    return set(res)
+
 
   def df(self, term):
     if term in self.posting_list:

@@ -22,8 +22,6 @@ app.add_middleware(
 )
 
 doc_path = f"../../data_from_2020/*json"
-
-
 index = PageRank(doc_path)
 
 @app.get("/pairs")
@@ -41,6 +39,10 @@ def get_tf_idf(term: str, doc_id: int):
 @app.get("/rank/{n}")
 def get_top(n: int):
     return index.rank(n)
+
+@app.get("/get_max_tf_idf_terms/{n}/{k}")
+def get_max_tf_idf_term(n: int, k: int):
+    return index.get_high_tf_idf_terms(n, k)
 
 @app.get("/search_best/{query}")
 def get_search(query: str):
