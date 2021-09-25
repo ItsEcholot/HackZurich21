@@ -1,3 +1,7 @@
+html {
+  scroll-behavior: smooth;
+}
+
 .cloud-layout {
   background-color: #001529;
   min-height: calc(100vh);
