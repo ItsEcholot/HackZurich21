@@ -8,5 +8,13 @@
 .chrono-wrap{
     width: 100%;
     max-width: 80rem;
-    height: 50vw;
+    /*height: 50vw;*/
+}
+.timeline-controls{
+    display: none!important;
+}
+
+
+.dummy{
+    color: rgb(197, 224, 248);
 }

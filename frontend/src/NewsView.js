@@ -28,6 +28,18 @@ function NewsView() {
           }
         }
       },
+      {
+        title: "14. Juli 2021, 14:19 Uhr",
+        cardTitle: "Limmat tritt über die Ufer",
+        cardSubtitle:"14. Juli 2021, 14:19 Uhr",
+        cardDetailedText: "Der Pegel der Limmat in Zürich steigt weiter an. An einigen Stellen ist der Fluss bereits über die Ufer getreten, weshalb einige Uferwege gesperrt werden mussten. Wegen der überdurchschnittlich hohen Wassermenge herrscht eine starke Strömung. An einigen besonders gefährlichen Orten weisen Mitarbeiter der Stadt Zürich Schaulustige von der Gefahrenzone weg. Der Wasserstand der Limmat ist hoch, aufgenommen heute Mittag beim Wipkingerpark.",
+        media: {
+          type: "IMAGE",
+          source: {
+            url: "https://www.srf.ch/static/cms/images/branded_srf/-regionaljournal/zhsh/2021/07/696226.462076493_highres.jpg-.jpg"
+          }
+        }
+      },
     ];
 
     return (
