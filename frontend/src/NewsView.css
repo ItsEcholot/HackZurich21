@@ -13,9 +13,12 @@
 .timeline-controls{
     display: none!important;
 }
-h2{
-    margin-top: 1rem;
+h2, .ant-typography{
+    margin: 1rem 4rem;
+    font-size: 40px;
+    font-family: 'Courier New', Courier, monospace;
 }
+
 h2::before{
     content: '#';
 }
