@@ -44,6 +44,8 @@ function NewsView(props) {
       },
     ];
 
+    console.dir(props.selectedTermArticles);
+
     return (
         <div className="NewsView">
             <Layout>
@@ -52,8 +54,9 @@ function NewsView(props) {
                 </Layout.Header>
                 <div className="chrono-wrap">
                     <Chrono  
-                        items={items}
+                        items={props.selectedTermArticles}
                         mode="VERTICAL"
+                        allowDynamicUpdate={true}
                         theme={{ 
                             primary: "rgb(0, 21, 41)",
                             secondary: "rgb(197, 224, 248)",

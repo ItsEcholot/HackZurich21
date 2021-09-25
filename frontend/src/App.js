@@ -1,11 +1,17 @@
 import { Layout, Input } from 'antd';
-
-import 'antd/dist/antd.css';
 import { useEffect, useState } from 'react';
-import './App.css';
 import NewsView from './NewsView';
 
+import 'antd/dist/antd.css';
+import './App.css';
+
 function App(props) {
+  const backendUrl = 'http://localhost:8000';
+
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedTerm, setSelectedTerm] = useState();
+  const [selectedTermArticles, setSelectedTermArticles] = useState();
+
   useEffect(() => {
     window.particlesJS('particles-js',
       {
@@ -135,16 +141,47 @@ function App(props) {
     document.getElementById('particles-js').addEventListener('click', () => onCanvasClick(window.pJSDom[0].pJS));
   }, []);
 
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedTerm, setSelectedTerm] = useState();
+  useEffect(() => {
+    if (!selectedTerm) return;
+
+    fetch(`${backendUrl}/search_filenames/${selectedTerm.term}/20`).then(async (res) => {
+      const result = await res.json();
+      const articles = [];
+      for (let filename of result.files) {
+        console.log(filename);
+        const article = await (await fetch(`${backendUrl}/article/${filename}.json`)).json();
+
+        const newArticle = {
+          title: (new Date(article.publishedDate*1000)).toLocaleDateString('de-CH'),
+          cardTitle: article.headline,
+          cardSubtitle: article.shortLead,
+          cardDetailedText: article.paragraphs,
+          media: {
+            type: "IMAGE",
+            source: {
+              url: article.teaserImage
+            }
+          }
+        };
+
+        articles.push(newArticle);
+      }
+
+      setSelectedTermArticles(articles);
+
+      let element = document.getElementById("articles");
+      element.scrollIntoView();
+      // window.location.href = '#articles';
+    });
+  }, [selectedTerm]);
 
   const onSearch = async () => {
-    const searchRes = await (await fetch(`http://localhost:8000/search/${encodeURI(searchTerm)}`)).json();
+    const searchRes = await (await fetch(`${backendUrl}/${encodeURI(searchTerm)}`)).json();
     console.dir(searchRes);
   }
 
   const getTerms = async (particlejs) => {
-    const terms = await (await fetch('http://localhost:8000/terms/1000')).json();
+    const terms = await (await fetch(`${backendUrl}/terms/1000`)).json();
 
     for (let i = 0; i < 20; i++) {
       const element = terms[i];
@@ -169,10 +206,6 @@ function App(props) {
   const onCanvasClick = async (particlejs) => {
     if (particlejs.interactivity.last_grabbed_dist < particlejs.interactivity.modes.grab.distance_click) {
       setSelectedTerm(particlejs.interactivity.last_grabbed.data);
-
-      let element = document.getElementById("articles");
-      element.scrollIntoView();
-      // window.location.href = '#articles';
     }
   }
 
@@ -195,7 +228,9 @@ function App(props) {
           </div>
         </Layout.Content>
         <Layout.Content id="articles">
-          {selectedTerm ? <NewsView selectedTerm={selectedTerm}/> : null }
+          {selectedTerm ? <NewsView 
+            selectedTerm={selectedTerm}
+            selectedTermArticles={selectedTermArticles}/> : null }
         </Layout.Content>
       </Layout>
     </div>
