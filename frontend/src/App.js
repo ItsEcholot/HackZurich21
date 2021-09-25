@@ -86,8 +86,8 @@ function App() {
               "mode": "grab"
             },
             "onclick": {
-              "enable": false,
-              "mode": "bubble"
+              "enable": true,
+              "mode": ""
             },
             "resize": true
           },
@@ -95,6 +95,7 @@ function App() {
             "grab": {
               "distance": 400,
               "distance_stop": 100,
+              "distance_click": 60,
               "line_linked": {
                 "opacity": 1
               }
@@ -131,14 +132,16 @@ function App() {
     );
 
     getTerms(window.pJSDom[0].pJS);
+    document.getElementById('particles-js').addEventListener('click', () => onCanvasClick(window.pJSDom[0].pJS));
   }, []);
 
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectedTerm, setSelectedTerm] = useState();
 
   const onSearch = async () => {
     const searchRes = await (await fetch(`http://localhost:8000/search/${encodeURI(searchTerm)}`)).json();
     console.dir(searchRes);
-  };
+  }
 
   const getTerms = async (particlejs) => {
     const terms = await (await fetch('http://localhost:8000/terms/1000')).json();
@@ -163,6 +166,12 @@ function App() {
     particlejs.terms = terms;
   }
 
+  const onCanvasClick = async (particlejs) => {
+    if (particlejs.interactivity.last_grabbed_dist < particlejs.interactivity.modes.grab.distance_click) {
+      setSelectedTerm(particlejs.interactivity.last_grabbed.data);
+    }
+  }
+
   return (
     <div className="App">
       <Layout>
@@ -177,12 +186,12 @@ function App() {
           />
         </Layout.Header>
         <Layout.Content className="cloud-layout">
-          <div class="cloud-layout-img">
+          <div className="cloud-layout-img">
             <div id="particles-js"></div>
           </div>
         </Layout.Content>
         <Layout.Content>
-          <NewsView />
+          <NewsView selectedTerm={selectedTerm}/>
         </Layout.Content>
       </Layout>
     </div>

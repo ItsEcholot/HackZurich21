@@ -662,14 +662,14 @@ var pJS = function (tag_id, params) {
 
 
       // Custom link logic
-      /*pJS.fn.interact.linkParticles(pJS.particles.array[0], pJS.particles.array[1]);
+      pJS.fn.interact.linkParticles(pJS.particles.array[0], pJS.particles.array[1]);
       pJS.fn.interact.attractParticles(pJS.particles.array[0], pJS.particles.array[1]);
 
       pJS.fn.interact.linkParticles(pJS.particles.array[0], pJS.particles.array[2]);
       pJS.fn.interact.attractParticles(pJS.particles.array[0], pJS.particles.array[2]);
 
       pJS.fn.interact.linkParticles(pJS.particles.array[1], pJS.particles.array[2]);
-      pJS.fn.interact.attractParticles(pJS.particles.array[1], pJS.particles.array[2]);*/
+      pJS.fn.interact.attractParticles(pJS.particles.array[1], pJS.particles.array[2]);
     }
 
   };
@@ -802,10 +802,10 @@ var pJS = function (tag_id, params) {
       p2.vx += ax;
       p2.vy += ay;
 
-      p1.vx = Math.min(Math.max(p1.vx, -pJS.particles.move.speed * 0.5), pJS.particles.move.speed * 0.5);
-      p1.vy = Math.min(Math.max(p1.vy, -pJS.particles.move.speed * 0.5), pJS.particles.move.speed * 0.5);
-      p2.vx = Math.min(Math.max(p2.vx, -pJS.particles.move.speed * 0.5), pJS.particles.move.speed * 0.5);
-      p2.vy = Math.min(Math.max(p1.vx, -pJS.particles.move.speed * 0.5), pJS.particles.move.speed * 0.5);
+      p1.vx = Math.min(Math.max(p1.vx, -pJS.particles.move.speed * 0.1), pJS.particles.move.speed * 0.1);
+      p1.vy = Math.min(Math.max(p1.vy, -pJS.particles.move.speed * 0.1), pJS.particles.move.speed * 0.1);
+      p2.vx = Math.min(Math.max(p2.vx, -pJS.particles.move.speed * 0.1), pJS.particles.move.speed * 0.1);
+      p2.vy = Math.min(Math.max(p1.vx, -pJS.particles.move.speed * 0.1), pJS.particles.move.speed * 0.1);
     }
 
 
@@ -1135,7 +1135,7 @@ var pJS = function (tag_id, params) {
 
       if (
         dist_mouse <= pJS.interactivity.modes.grab.distance_stop &&
-        (pJS.interactivity.last_grabbed !== p && dist_mouse < pJS.interactivity.last_grabbed_dist)
+        dist_mouse < pJS.interactivity.last_grabbed_dist
       ) {
         pJS.interactivity.last_grabbed = p;
         pJS.interactivity.last_grabbed_dist = dist_mouse;
