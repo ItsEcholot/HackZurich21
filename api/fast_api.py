@@ -1,6 +1,8 @@
 from typing import Optional
 from page_rank import PageRank
 
+import urllib.parse
+
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI
 
@@ -18,7 +20,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-doc_path = f"../../data/data_from_2020/*json"
+doc_path = f"../../data_from_2020/*json"
 
 
 index = PageRank(doc_path)
@@ -29,15 +31,13 @@ def read_pairs():
 
 @app.get("/terms/{n}")
 def read_terms(n: int):
-    term_list = index.get_terms(n)
-
-    return {}
+    return index.get_terms(n)
 
 @app.get("/search/{query}")
 def read_search(query: str):
-    res = index.search(query)
+    res = set(index.search(urllib.parse.unquote(query)))
 
     if len(res) > 0:
-        return {"query": res[0]}
+        return {"query": list(res)}
     else:
         return {}
