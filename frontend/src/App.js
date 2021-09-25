@@ -177,8 +177,7 @@ function App(props) {
   }, [selectedTerm]);
 
   const onSearch = async () => {
-    const searchRes = await (await fetch(`${backendUrl}/${encodeURI(searchTerm)}`)).json();
-    console.dir(searchTerm);
+    setSelectedTerm({term: searchTerm});
   }
 
   const getTerms = async (particlejs) => {
