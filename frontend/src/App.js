@@ -56,7 +56,7 @@ function App() {
             }
           },
           "line_linked": {
-            "enable": true,
+            "enable": false,
             "distance": Infinity,
             "color": "#ffffff",
             "opacity": 0.4,
