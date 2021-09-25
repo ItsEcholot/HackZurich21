@@ -1,11 +1,25 @@
 from typing import Optional
 from page_rank import PageRank
 
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI
+
+app = FastAPI()
+
+origins = [
+    "*",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 doc_path = f"../../data/data_from_2020/*json"
 
-app = FastAPI()
 
 index = PageRank(doc_path)
 
