@@ -24,7 +24,7 @@ class PageRank:
     self.n_docs = len(self.docs)
 
   def read_docs(self):
-    pattern = "[a-zA-Z0-9_]+(?=.json)"
+    pattern = "[a-zA-Z0-9_]+.json"
     for doc_id, doc in enumerate(sorted(glob2.glob(self.doc_path))):
       self.doc_paths.append(re.search(pattern, doc).group(0))
       with open(doc) as f:
