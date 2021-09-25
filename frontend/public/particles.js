@@ -524,8 +524,7 @@ var pJS = function (tag_id, params) {
   pJS.fn.outOfBounds = (p) => {
     const term = pJS.terms[Math.floor(Math.random() * (pJS.terms.length-1))];
     p.data = {
-      term: term[0],
-      documentCount: term[1],
+      term,
     };
   };
 
