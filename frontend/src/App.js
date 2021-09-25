@@ -11,7 +11,7 @@ function App() {
       {
         "particles": {
           "number": {
-            "value": 20,
+            "value": 0,
             "density": {
               "enable": false,
               "value_area": 800
@@ -56,7 +56,7 @@ function App() {
             }
           },
           "line_linked": {
-            "enable": false,
+            "enable": true,
             "distance": Infinity,
             "color": "#ffffff",
             "opacity": 0.4,
@@ -64,7 +64,7 @@ function App() {
           },
           "move": {
             "enable": true,
-            "speed": 1,
+            "speed": 3,
             "direction": "none",
             "random": false,
             "straight": false,
@@ -129,14 +129,39 @@ function App() {
       }
 
     );
+
+    getTerms(window.pJSDom[0].pJS);
   }, []);
 
   const [searchTerm, setSearchTerm] = useState('');
 
   const onSearch = async () => {
-    const searchRes = await fetch(`http://localhost:8000/search/${encodeURI(searchTerm)}`);
-    console.dir(searchRes.json());
+    const searchRes = await (await fetch(`http://localhost:8000/search/${encodeURI(searchTerm)}`)).json();
+    console.dir(searchRes);
   };
+
+  const getTerms = async (particlejs) => {
+    const terms = await (await fetch('http://localhost:8000/terms/1000')).json();
+
+    for (let i = 0; i < 20; i++) {
+      const element = terms[i];
+      const particle = new particlejs.fn.particle(
+        particlejs.particles.color,
+        particlejs.particles.opacity.value,
+        {
+          'x': Math.random() * particlejs.canvas.w,
+          'y': Math.random() * particlejs.canvas.h
+        }
+      );
+      particle.data = {
+        term: element[0],
+        documentCount: element[1],
+      };
+      particlejs.particles.array.push(particle);
+    }
+
+    particlejs.terms = terms;
+  }
 
   return (
     <div className="App">
@@ -155,7 +180,7 @@ function App() {
           <div id="particles-js"></div>
         </Layout.Content>
         <Layout.Content>
-          <NewsView/>
+          <NewsView />
         </Layout.Content>
       </Layout>
     </div>
