@@ -189,8 +189,9 @@ function App(props) {
     if (particlejs.interactivity.last_grabbed_dist < particlejs.interactivity.modes.grab.distance_click) {
       setSelectedTerm(particlejs.interactivity.last_grabbed.data);
 
-      window.location.href = '#';
-      window.location.href = '#articles';
+      let element = document.getElementById("articles");
+      element.scrollIntoView();
+      // window.location.href = '#articles';
     }
   }
 
