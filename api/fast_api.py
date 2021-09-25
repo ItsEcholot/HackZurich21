@@ -34,7 +34,7 @@ def get_pairs():
 def get_terms(n: int):
     return index.get_terms(n)
 
-@app.get("/tfidf/{term}&{doc_id}")
+@app.get("/tfidf/{term}/{doc_id}")
 def get_tf_idf(term: str, doc_id: int):
     return index.tf_idf(term, doc_id)
 
@@ -51,7 +51,7 @@ def get_search(query: str):
     else:
         return {}
 
-@app.get("/search/{query}&{k}")
+@app.get("/search/{query}/{k}")
 def get_search_top_k(query: str, k: int):
     res = index.search_k(urllib.parse.unquote(query), k)
 
@@ -60,7 +60,7 @@ def get_search_top_k(query: str, k: int):
     else:
         return {}
 
-@app.get("/search_filenames/{query}&{k}")
+@app.get("/search_filenames/{query}/{k}")
 def get_search_top_k_article_names(query: str, k: int):
     res = index.search_k_article_name(urllib.parse.unquote(query), k)
 
