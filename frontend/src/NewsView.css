@@ -13,8 +13,20 @@
 .timeline-controls{
     display: none!important;
 }
-
-
-.dummy{
-    color: rgb(197, 224, 248);
+h2{
+    margin-top: 1rem;
+}
+h2::before{
+    content: '#';
+}
+.timeline-item-title {
+    max-width: 7rem;
+}
+.css-mpnodf-TimelineTitleWrapper {
+    width: unset;
+}
+.card-title, .card-sub-title{
+    width: 95.5%!important;
+    margin-left: auto!important;
+    margin-right: auto!important;
 }

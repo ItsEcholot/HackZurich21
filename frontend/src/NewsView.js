@@ -56,7 +56,7 @@ function NewsView() {
                             primary: "rgb(0, 21, 41)",
                             secondary: "rgb(197, 224, 248)",
                             cardBgColor: "white",
-                            cardForeColor: "grey",
+                            cardForeColor: "rgb(0, 21, 41)",
                             titleColor: "black"
                         }}
                     />
