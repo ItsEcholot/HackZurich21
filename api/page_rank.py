@@ -19,13 +19,14 @@ class PageRank:
     self.doc_paths = []
 
     self.read_docs()
-    self.create_index()
+    # self.create_index()
 
     self.n_docs = len(self.docs)
 
   def read_docs(self):
+    pattern = "[a-zA-Z0-9_]+(?=.json)"
     for doc_id, doc in enumerate(sorted(glob2.glob(self.doc_path))):
-      self.doc_paths.append(doc)
+      self.doc_paths.append(re.search(pattern, doc).group(0))
       with open(doc) as f:
         json_doc = json.load(f)
         if len(json_doc["paragraphs"]) > 0:
@@ -126,13 +127,14 @@ class PageRank:
   
     # print(np.argmax(res))
     # if score of docs are too low (e.g. query is unrelated to documents)
-    if (res[k] < 0.05):
-      while res[k] < 0.05 and k >= 0:
+    top_k_index = np.argsort(res)
+    if (res[top_k_index[-k]] < 0.05):
+      while res[top_k_index[-k]] < 0.05 and k >= 0:
         if k == 0:
           return []
         k -= 1
 
-    top_k_retrieval = np.argsort(res)[-k:]
+    top_k_retrieval = top_k_index[-k:]
     print(top_k_retrieval)
     retrieved_docs = []
     for i in np.flip(top_k_retrieval):
