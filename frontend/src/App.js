@@ -1,17 +1,23 @@
 import { Layout, Input } from 'antd';
-
-import 'antd/dist/antd.css';
 import { useEffect, useState } from 'react';
-import './App.css';
 import NewsView from './NewsView';
 
-function App() {
+import 'antd/dist/antd.css';
+import './App.css';
+
+function App(props) {
+  const backendUrl = 'http://localhost:8000';
+
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedTerm, setSelectedTerm] = useState();
+  const [selectedTermArticles, setSelectedTermArticles] = useState();
+
   useEffect(() => {
     window.particlesJS('particles-js',
       {
         "particles": {
           "number": {
-            "value": 20,
+            "value": 0,
             "density": {
               "enable": false,
               "value_area": 800
@@ -64,7 +70,7 @@ function App() {
           },
           "move": {
             "enable": true,
-            "speed": 1,
+            "speed": 3,
             "direction": "none",
             "random": false,
             "straight": false,
@@ -86,8 +92,8 @@ function App() {
               "mode": "grab"
             },
             "onclick": {
-              "enable": false,
-              "mode": "bubble"
+              "enable": true,
+              "mode": ""
             },
             "resize": true
           },
@@ -95,6 +101,7 @@ function App() {
             "grab": {
               "distance": 400,
               "distance_stop": 100,
+              "distance_click": 60,
               "line_linked": {
                 "opacity": 1
               }
@@ -129,19 +136,84 @@ function App() {
       }
 
     );
+
+    getTerms(window.pJSDom[0].pJS);
+    document.getElementById('particles-js').addEventListener('click', () => onCanvasClick(window.pJSDom[0].pJS));
   }, []);
 
-  const [searchTerm, setSearchTerm] = useState('');
+  useEffect(() => {
+    if (!selectedTerm) return;
+
+    fetch(`${backendUrl}/search_filenames/${selectedTerm.term}/20`).then(async (res) => {
+      const result = await res.json();
+      const articles = [];
+      for (let filename of result.files) {
+        const article = await (await fetch(`${backendUrl}/article/${filename}.json`)).json();
+
+        const newArticle = {
+          title: (new Date(article.publishedDate*1000)).toLocaleDateString('de-CH'),
+          cardTitle: article.headline,
+          cardSubtitle: article.shortLead,
+          cardDetailedText: article.paragraphs,
+          media: {
+            type: "IMAGE",
+            source: {
+              url: article.teaserImage
+            }
+          },
+          rawDate: article.publishedDate
+        };
+
+        articles.push(newArticle);
+      }
+
+      articles.sort((a, b) => b.rawDate - a.rawDate);
+      setSelectedTermArticles(articles);
+
+      let element = document.getElementById("articles");
+      element.scrollIntoView();
+      // window.location.href = '#articles';
+    });
+  }, [selectedTerm]);
 
   const onSearch = async () => {
-    const searchRes = await fetch(`http://localhost:8000/search/${encodeURI(searchTerm)}`);
-    console.dir(searchRes.json());
-  };
+    const searchRes = await (await fetch(`${backendUrl}/${encodeURI(searchTerm)}`)).json();
+    console.dir(searchTerm);
+  }
+
+  const getTerms = async (particlejs) => {
+    const terms = await (await fetch(`${backendUrl}/terms/1000`)).json();
+
+    for (let i = 0; i < 20; i++) {
+      const element = terms[i];
+      const particle = new particlejs.fn.particle(
+        particlejs.particles.color,
+        particlejs.particles.opacity.value,
+        {
+          'x': Math.random() * particlejs.canvas.w,
+          'y': Math.random() * particlejs.canvas.h
+        }
+      );
+      particle.data = {
+        term: element[0],
+        documentCount: element[1],
+      };
+      particlejs.particles.array.push(particle);
+    }
+
+    particlejs.terms = terms;
+  }
+
+  const onCanvasClick = async (particlejs) => {
+    if (particlejs.interactivity.last_grabbed_dist < particlejs.interactivity.modes.grab.distance_click) {
+      setSelectedTerm(particlejs.interactivity.last_grabbed.data);
+    }
+  }
 
   return (
     <div className="App">
       <Layout>
-        <Layout.Header style={{ width: '100%' }}>
+
           <Input.Search
             placeholder="Überschwemmung"
             allowClear onSearch={onSearch}
@@ -150,12 +222,16 @@ function App() {
             size="large"
             onChange={e => setSearchTerm(e.target.value)}
           />
-        </Layout.Header>
+
         <Layout.Content className="cloud-layout">
-          <div id="particles-js"></div>
+          <div className="cloud-layout-img">
+            <div id="particles-js"></div>
+          </div>
         </Layout.Content>
-        <Layout.Content>
-          <NewsView/>
+        <Layout.Content id="articles">
+          {selectedTerm ? <NewsView 
+            selectedTerm={selectedTerm}
+            selectedTermArticles={selectedTermArticles}/> : null }
         </Layout.Content>
       </Layout>
     </div>

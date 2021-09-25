@@ -24,7 +24,7 @@ class PageRank:
     self.n_docs = len(self.docs)
 
   def read_docs(self):
-    pattern = "[a-zA-Z0-9_]+.json"
+    pattern = "[a-zA-Z0-9_äöü]+(?=.json)"
     for doc_id, doc in enumerate(sorted(glob2.glob(self.doc_path))):
       self.doc_paths.append(re.search(pattern, doc).group(0))
       with open(doc) as f:
@@ -33,7 +33,7 @@ class PageRank:
           self.docs_json.append(json_doc)
           text = functools.reduce((lambda x, y : x + " " + y), json_doc["paragraphs"])
           self.docs.append((doc_id,text))
-          for term in (re.sub('[^A-Za-z ]+', '', text)).lower().split():
+          for term in (re.sub('[^A-Za-zäöü ]+', '', text)).lower().split():
             
             # index creation
             term = self.normalize_term(term)
@@ -52,7 +52,7 @@ class PageRank:
           self.docs_json.append(json_doc)
           text = functools.reduce((lambda x, y : x + " " + y), json_doc["headline"])
           self.docs.append((doc_id,text))
-          for term in (re.sub('[^A-Za-z ]+', '', text)).lower().split():
+          for term in (re.sub('[^A-Za-zäöü ]+', '', text)).lower().split():
             
             # index creation
             term = self.normalize_term(term)
@@ -106,7 +106,7 @@ class PageRank:
       return 0
 
   def normalize_term(self, term):
-    return re.sub('[^A-Za-z]+', '', term.lower())
+    return re.sub('[^A-Za-zäöü]+', '', term.lower())
 
   def tf(self, term, doc_id):
     term = self.normalize_term(term)
@@ -123,7 +123,7 @@ class PageRank:
     if k > self.n_docs:
       k = self.n_docs
     
-    query = re.sub('[^A-Za-z ]+', '', query.lower()).split(" ")
+    query = re.sub('[^A-Za-zäöü ]+', '', query.lower()).split(" ")
 
     query_vector = np.zeros(len(query))
     doc_vectors = np.zeros((self.n_docs, len(query)))
@@ -177,7 +177,7 @@ class PageRank:
 
 
   def search(self, query):
-    query = re.sub('[^A-Za-z ]+', '', query.lower()).split(" ")
+    query = re.sub('[^A-Za-zäöü ]+', '', query.lower()).split(" ")
 
     query_vector = np.zeros(len(query))
     doc_vectors = np.zeros((self.n_docs, len(query)))

@@ -80,7 +80,7 @@ def get_posting_len():
     return len(index.posting_list)
 
 @app.get("/article/{file_name}")
-def get_article():
+def get_article(file_name: str):
     path = f"../../data_from_2020/{file_name}"
     with open(path) as f:
         return json.load(f)

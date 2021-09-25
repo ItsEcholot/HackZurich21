@@ -1,8 +1,28 @@
+html {
+  scroll-behavior: smooth;
+}
 .cloud-layout {
   background-color: #001529;
-  min-height: calc(100vh - 64px);
+  min-height: calc(100vh);
+  margin-top: -4.5rem;
+}
+
+.cloud-layout-img {
+  background-image: url("bg_test.png");
+  background-size: 130%;
+  background-position: 50% 50%;
 }
 
 .particles-js-canvas-el {
-  height: calc(100vh - 64px) !important;
+  height: calc(100vh) !important;
+}
+.ant-input-group-wrapper{
+  max-width: 30rem;
+  width: 100%;
+  margin-top: 2rem!important;
+  margin-left: auto!important;
+  margin-right: auto!important;
+}
+.ant-input-group-wrapper {
+  display: block;
 }
