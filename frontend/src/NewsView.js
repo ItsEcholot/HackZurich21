@@ -1,4 +1,5 @@
 import { Layout, Typography } from 'antd';
+import Article from './Article';
 
 import './NewsView.css';
 
@@ -12,7 +13,11 @@ function NewsView() {
                 </Layout.Header>
                 <Layout>
                     <Layout.Sider>Sider</Layout.Sider>
-                    <Layout.Content>Content</Layout.Content>
+                    <Layout.Content>
+                        <Article></Article>
+                        <Article></Article>  
+
+                    </Layout.Content>
                 </Layout>
                 <Layout.Footer>Footer</Layout.Footer>
             </Layout>
