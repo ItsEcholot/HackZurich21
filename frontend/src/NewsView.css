@@ -7,7 +7,7 @@
 }
 .chrono-wrap{
     width: 100%;
-    max-width: 80rem;
+    max-width: 60rem;
     /*height: 50vw;*/
 }
 .timeline-controls{
@@ -22,6 +22,11 @@ h2, .ant-typography{
 h2::before{
     content: '#';
 }
+h2, .ant-typography{
+    margin: 1rem 4rem;
+    font-size: 40px;
+    font-family: 'Courier New', Courier, monospace;
+}
 .timeline-item-title {
     max-width: 7rem;
 }
@@ -29,9 +34,15 @@ h2::before{
     width: unset;
 }
 .card-title, .card-sub-title{
-    width: 95.5%!important;
-    margin-left: auto!important;
-    margin-right: auto!important;
+    width: unset!important;
+    margin-left: 0;
+    margin-right: 0;
+}
+.card-title{
+    font-size: 1.5rem!important;
+    padding-left: 0.5rem!important;
+    padding-top: 0.25rem!important;
+    padding-bottom: 0.5rem!important;
 }
 .timeline-item-title.active{
     background-color: unset!important;
@@ -51,4 +62,11 @@ h2::before{
     object-fit: cover !important;
     border-radius: 2px;
     margin-bottom: 10px;
+}
+.card-description{
+    max-height: unset!important;
+    width: 100%!important;
+}
+.card-description.show-less{
+    max-height: 50px!important;
 }
