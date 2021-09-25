@@ -1,7 +1,7 @@
 import { Layout, Input } from 'antd';
 
 import 'antd/dist/antd.css';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 import NewsView from './NewsView';
 
@@ -131,8 +131,11 @@ function App() {
     );
   }, []);
 
-  const onSearch = () => {
+  const [searchTerm, setSearchTerm] = useState('');
 
+  const onSearch = async () => {
+    const searchRes = await fetch(`http://localhost:8000/search/${encodeURI(searchTerm)}`);
+    console.dir(searchRes.json());
   };
 
   return (
@@ -140,11 +143,12 @@ function App() {
       <Layout>
         <Layout.Header style={{ width: '100%' }}>
           <Input.Search
-            placeholder="input search text"
+            placeholder="Überschwemmung"
             allowClear onSearch={onSearch}
             style={{ marginTop: 15 }}
             enterButton
             size="large"
+            onChange={e => setSearchTerm(e.target.value)}
           />
         </Layout.Header>
         <Layout.Content className="cloud-layout">
