@@ -45,7 +45,7 @@ function App(props) {
             "value": 1,
             "random": false,
             "anim": {
-              "enable": true,
+              "enable": false,
               "speed": 0.1,
               "opacity_min": 0.5,
               "sync": false
@@ -64,13 +64,13 @@ function App(props) {
           "line_linked": {
             "enable": false,
             "distance": Infinity,
-            "color": "#ffffff",
+            "color": "#888888",
             "opacity": 0.4,
             "width": 1
           },
           "move": {
             "enable": true,
-            "speed": 3,
+            "speed": 1.5,
             "direction": "none",
             "random": false,
             "straight": false,
@@ -202,6 +202,7 @@ function App(props) {
     }
 
     particlejs.terms = terms;
+    particlejs.fn.generateLinkPartners();
   }
 
   const onCanvasClick = async (particlejs) => {

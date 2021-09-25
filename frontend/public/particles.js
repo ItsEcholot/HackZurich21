@@ -522,12 +522,23 @@ var pJS = function (tag_id, params) {
   };
 
   pJS.fn.outOfBounds = (p) => {
-    const term = pJS.terms[Math.floor(Math.random() * 999)];
+    const term = pJS.terms[Math.floor(Math.random() * (pJS.terms.length-1))];
     p.data = {
       term: term[0],
       documentCount: term[1],
     };
   };
+
+  pJS.linkPartners = [];
+  pJS.fn.generateLinkPartners = () => {
+    for (let i = 0; i < pJS.particles.array.length; i++) {
+      for (let j = 0; j < pJS.particles.array.length; j++) {
+        if (Math.random() > 0.98) {
+          pJS.linkPartners.push([pJS.particles.array[i], pJS.particles.array[j]]);
+        }
+      }
+    }
+  }
 
   pJS.fn.particlesUpdate = function () {
 
@@ -662,14 +673,20 @@ var pJS = function (tag_id, params) {
 
 
       // Custom link logic
-      pJS.fn.interact.linkParticles(pJS.particles.array[0], pJS.particles.array[1]);
+
+      for (let partners of pJS.linkPartners) {
+        pJS.fn.interact.linkParticles(partners[0], partners[1]);
+        pJS.fn.interact.attractParticles(partners[0], partners[1]);
+      }
+
+      /*pJS.fn.interact.linkParticles(pJS.particles.array[0], pJS.particles.array[1]);
       pJS.fn.interact.attractParticles(pJS.particles.array[0], pJS.particles.array[1]);
 
       pJS.fn.interact.linkParticles(pJS.particles.array[0], pJS.particles.array[2]);
       pJS.fn.interact.attractParticles(pJS.particles.array[0], pJS.particles.array[2]);
 
       pJS.fn.interact.linkParticles(pJS.particles.array[1], pJS.particles.array[2]);
-      pJS.fn.interact.attractParticles(pJS.particles.array[1], pJS.particles.array[2]);
+      pJS.fn.interact.attractParticles(pJS.particles.array[1], pJS.particles.array[2]);*/
     }
 
   };
@@ -802,10 +819,10 @@ var pJS = function (tag_id, params) {
       p2.vx += ax;
       p2.vy += ay;
 
-      p1.vx = Math.min(Math.max(p1.vx, -pJS.particles.move.speed * 0.1), pJS.particles.move.speed * 0.1);
-      p1.vy = Math.min(Math.max(p1.vy, -pJS.particles.move.speed * 0.1), pJS.particles.move.speed * 0.1);
-      p2.vx = Math.min(Math.max(p2.vx, -pJS.particles.move.speed * 0.1), pJS.particles.move.speed * 0.1);
-      p2.vy = Math.min(Math.max(p1.vx, -pJS.particles.move.speed * 0.1), pJS.particles.move.speed * 0.1);
+      p1.vx = Math.min(Math.max(p1.vx, -pJS.particles.move.speed * 0.2), pJS.particles.move.speed * 0.2);
+      p1.vy = Math.min(Math.max(p1.vy, -pJS.particles.move.speed * 0.2), pJS.particles.move.speed * 0.2);
+      p2.vx = Math.min(Math.max(p2.vx, -pJS.particles.move.speed * 0.2), pJS.particles.move.speed * 0.2);
+      p2.vy = Math.min(Math.max(p1.vx, -pJS.particles.move.speed * 0.2), pJS.particles.move.speed * 0.2);
     }
 
 
